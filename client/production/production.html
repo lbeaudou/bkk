@@ -1,0 +1,74 @@
+<template name="production">
+<div class="body">
+	<div class="etape">
+	<form method="post" class="production_submit">
+	<table class="bandeau_etape">
+		<tbody>
+			<tr>
+			 <td ROWSPAN="3" ><img class="bandeau_img" src="/imgciee.png"></td>
+			</tr>
+			<tr>
+				<td>Sequenced Assembly : {{html.reference}}</td>
+				<td></td>
+				<td>Step</td>
+			</tr>
+			<tr>
+				<td>Process Rev : {{html.revision}}</td>
+				<td>Jig Rev : {{html.jig_rev}}</td>
+				<td>{{html.num_etape}}</td>
+			</tr>
+		</tbody>
+	</table>
+		<div class="affiche_etape">
+			
+			{{{html.html_etape}}}
+			
+			
+			
+		</div>
+		<input type="hidden" id="id" name="id" value="{{html._id}}">
+		<button type="button" name="bp_retour" class="bp_retour" value="retour">Return - กลับ</button>
+		<button type="submit" name="bp_suivant" class="bp_suivant" value="suivant">Next - ดังต่อไปนี้</button>
+		</form>
+	</div>
+
+</div>
+
+
+</template>
+
+<template name="login">
+<form class="form_login">
+<div class="body">
+	<div class="div_login">
+	<h2>Login - เข้าสู่ระบบ</h2>
+	
+	<table>
+		<tbody>
+			<tr>
+				<td>Login - เข้าสู่ระบบ: </td>
+				<td><input type="text" id="login" name="login" value="{{login}}" autofocus></td>
+			</tr>
+			<tr>
+				<td>Reference - การอ้างอิง : </td>
+				<td><select name="reference">
+				{{#each references}}
+          <option value="{{_id}}">{{reference}}</option>
+ 
+    {{/each}} 
+
+  </select></td>
+			</tr>
+			<tr>
+				<td>Serial number - หมายเลขผลิตภัณฑ์: </td> 
+				<td><input type="number" name="numserie" min="1"></td>
+			</tr>
+		</tbody>
+	</table>
+	<button type="submit">Ok - ตกลง</button>
+	</div>
+	<center><a class="refresh" href="/production/">Return page login</a></center>
+</div>
+
+</form> 
+</template>

@@ -1,0 +1,259 @@
+/** div **/
+body {
+	background-color:white;
+	padding:5px;
+	
+}
+.body {
+	
+	width:92%;
+	margin:auto;
+	
+}
+
+
+
+
+
+
+.editeur {
+	margin-top:55px;
+	text-align:center;
+	padding:10px;
+	background: #f9f9f9;
+	box-shadow: #f1f1f1 0 0 0 1px inset;
+    border-radius: 2px;
+	margin-bottom:10px;
+	
+}
+
+
+.etape { 
+	width:100%; 
+	text-align:center;
+	padding:10px;
+	background: #f9f9f9;
+	box-shadow: #f1f1f1 0 0 0 1px inset;
+    border-radius: 2px;
+	margin-bottom:10px;
+	min-height:50px;
+	margin-bottom:10px;
+}
+.numero_etape {
+	
+	
+    margin-top:0;
+    margin-right: 0;
+	margin-bottom:30px;
+	text-align:right;
+	width:100%;
+	
+}
+
+.affiche_etape {
+	border: 1px solid black;
+	width:100%;
+	height:800px;
+	margin-bottom:10px;
+	margin-top:0px;
+	border-radius: 2px;
+	text-align:center;
+}
+
+
+.etape_display_titre {
+	border: 1px solid black;
+	width:100%;
+	height:80px;
+}
+.div_login {
+	width:400px;
+	margin:auto;
+	text-align:center;
+	background: #f9f9f9;
+	box-shadow: #f1f1f1 0 0 0 1px inset;
+    border-radius: 2px;
+	padding:5px;
+}
+.div_login td {
+	width:150px;
+	height:90px;
+}
+.spin {
+	width:10px;
+	margin:auto;
+	text-align:center;
+	margin-top:400px;
+}
+
+.blockfloat {
+	width:50%;
+	float:left;
+	height:500px;
+}
+.template_a_top {
+	width:100%;
+	height:100px;
+	border:1px solid black;
+
+}
+.template_a_top_body {
+	margin-left:10px;
+	margin-right:10px;	
+	margin-top:10px;	
+	margin-bottom:10px;	
+	width:100%;
+	height:80px;
+	text-align:left;
+}
+
+.template_a_body {
+	width:100%;
+}
+
+.template_b_simple {
+width:100%;
+height:700px;
+border:1px solid black;	
+
+}
+
+.template_b_simple_body {
+	margin-left:10px;
+	margin-right:10px;	
+	margin-top:10px;	
+	margin-bottom:10px;	
+	width:100%;
+	height:680px;
+	text-align:left;
+}
+
+.template_a_double {
+width:50%;
+height:700px;
+border:1px solid black;	
+float:left;
+
+}
+
+.template_a_double_body {
+margin-left:10px;
+	margin-right:10px;	
+	margin-top:10px;	
+	margin-bottom:10px;	
+	width:100%;
+	height:680px;
+	text-align:left;
+}
+
+.reporting_error {
+	
+	position: absolute;
+  top: 10px;
+  right: 10px;
+  padding:10px;
+position:fixed;
+  background-color:white;
+ 
+  font-size:50px;
+}
+/** span **/
+
+
+
+/** Bouton **/
+.div_login button {
+width:300px;
+height:80px;
+}
+.div_login input, .div_login select {
+height:60px;
+}
+
+.bp_enregistrer {
+	width:100%;
+	height:80px;
+	
+}
+
+.bp_supprimer {
+	width:19%;
+	height:80px;
+}
+.bp_modifier {
+	width:79%;
+	height:80px;
+}
+.bp_suivant, .bp_retour {
+	width:49%;
+	height:125px;
+ font-size:36px;
+}
+
+.bp_production, .bp_creation {
+	width:49%;
+	height:700px;
+	font-size: 36px;
+	
+}
+.num_etape {
+	width:50px;
+	text-align:center;
+}
+
+/** textaera **/
+
+.commentaire_etape {
+	width:200px;
+}
+
+/** tableau **/
+
+.table_editeur tr {
+	height:50px;
+	
+}
+
+.table_editeur td {
+	width:200px;
+	text-align:left;
+}
+
+.table_editeur_field tr {
+	height:30px;
+	
+}
+
+.table_editeur_field td {
+	width:200px;
+	text-align:left;
+}
+.bandeau_etape {
+	width:100%;
+}
+.bandeau_etape td {
+	width:25%;
+	border:1px solid black;
+	font-size:18px;
+}
+.tab_report {
+	text-align:center;
+}
+.tab_report td {
+	min-width:100px;
+}
+.tab_time td {
+	min-width:100px;
+}
+/* tab ref */
+
+.tab_ref td {
+	
+	width:150px;
+	height:40px;
+}
+
+/* img */
+.bandeau_etape img {
+	height:100px;
+}

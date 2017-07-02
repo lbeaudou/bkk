@@ -1,0 +1,102 @@
+<template name="references">
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        
+        <li class="active"> <a href="/references">Reference</a></li>
+        <li><a target="_blank" href="/production">Production</a></li>
+        
+      </ul>
+      
+      <ul class="nav navbar-nav navbar-right">
+        <li><A HREF="mailto:leo.beaudou@gmail.com?subject=Error20%LABFLOW&cc=tbeaudou@cieeinterconnect.com&body=Request"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span></A></li>
+        <li><A HREF="mailto:leo.beaudou@gmail.com?subject=Help20%LABFLOW&cc=tbeaudou@cieeinterconnect.com&body=Request"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></A></li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="body">
+<div class="container" style="margin-top:55px;">		
+		<h1>Add Reference</h1>
+<form id="add_ref" class="form-inline">
+<div class="form-group">
+    <input type="text" class="form-control" id="name_ref" placeholder="Name">
+ </div>
+ <button type="submit" class="btn btn-default">Save</button>
+</form>
+		<h1>References</h1>
+<!-- <table class="tab_ref"> -->
+<table class="table table-striped">
+	<tbody>
+		<tr>
+			<td><b>Name</b></td>
+			<td><b>Valid</b></td>
+			<td><b>Edit</b></td>
+			<td><b>Add Revision</b></td>
+			<td><b>Revision</b></td>
+			<td><b>Remove</b></td>
+			<td><b>All step</b></td>
+		</tr>
+			{{#each ref}}
+		<tr>
+			<td><span>{{reference}} </span></td>
+			<td><div class="checkbox"><label><input type="checkbox" class="valid_ref" name="valid_ref">{{validation}}</label></div></td> 
+			<td><button class="btn btn-default" id="edit_ref">Edit</button></td>
+			<td><button class="btn btn-default" id="commit">Add revision</button></td>
+			<td><span>{{revision}}</span></td>
+			<td><span id="del_ref" class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span></td>
+			<td><button class="btn btn-default" id="all">All step</button></td>
+		</tr>
+	
+			{{/each}} 
+	</tbody>
+</table>
+
+
+</div>
+</div>
+
+
+</template>
+
+<template name="total_ref">
+<div class="body">
+<div class="form-group"><button class="form-control" id="download">Download</button></div>
+	{{>total}}
+	</div>
+</template>
+
+<template name="total">
+
+{{#each html}}
+<table class="bandeau_etape">
+		<tbody>
+			<tr>
+			 <td ROWSPAN="3" ><img src="/imgciee.png" width="300px"></td>
+			</tr>
+			<tr>
+				<td>Sequenced Assembly : {{reference}}</td>
+				<td></td>
+				<td>Step</td>
+			</tr>
+			<tr>
+				<td>Process Rev : {{revision}}</td>
+				<td>Jig Rev : {{jig_rev}}</td>
+				<td>{{num_etape}}</td>
+			</tr>
+		</tbody>
+	</table>
+		<div class="affiche_etape">
+			
+			{{{html_etape}}}
+			
+			
+			
+		</div>
+{{/each}} 
+	
+
+
+</template>

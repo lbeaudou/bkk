@@ -1,0 +1,57 @@
+<template name="reports">
+<div class="body">
+	<center><h1>Report</h1></center>
+<table class="tab_report">
+	<tbody>
+		<tr>
+			<td>Login</td>
+			<td>Date</td>
+			<td>num step</td>
+			<td>Comment</td>
+			<td>value</td>
+		</tr>
+		
+{{#each go}}
+		<tr>
+			<td>{{login}}</td>
+			<td>{{date}}</td>
+			<td>{{num_etape}}</td>
+			<td>{{comment}}</td>
+			<td>{{value}}</td>
+        </tr>
+    {{/each}} 
+	</tbody>
+</table>
+<hr>
+{{>moreCharts}}
+</div>
+
+</template>
+
+
+
+<template name="moreCharts">
+		<center><h1>Time report(seconds)</h1></center>
+<h3>Total time: {{total}} s</h3>
+    <canvas id="myChart" width="1200" height="400"></canvas>
+	<hr>
+	
+<table class="tab_time">
+	<tbody>
+		<tr>
+			<td>Step</td>
+			<td>Time(s)</td>
+			
+		</tr>
+		
+{{#each tb_temps}}
+	<tr>
+		<td>{{num_etape}}</td>
+		<td>{{time}}</td>
+		
+	</tr>
+{{/each}} 	
+	</tbody>
+</table>
+
+</template>

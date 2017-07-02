@@ -1,0 +1,169 @@
+<template name="edition">
+	<div class="body">
+		
+	<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">{{reference}} : edit </a></li>
+        <li><a href="/references">Reference</a></li>
+        <li><a target="_blank" href="/production">Production</a></li>
+        
+      </ul>
+      
+      <ul class="nav navbar-nav navbar-right">
+        <li><A HREF="mailto:leo.beaudou@gmail.com?subject=Error20%LABFLOW&cc=tbeaudou@cieeinterconnect.com&body=Request"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span></A></li>
+        <li><A HREF="mailto:leo.beaudou@gmail.com?subject=Help20%LABFLOW&cc=tbeaudou@cieeinterconnect.com&body=Request"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></A></li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+		{{>editeur}}
+		
+	
+	{{#each etapes}}
+        {{>etape}}
+    {{/each}} 
+		
+		
+ {{>reporting}}
+ 
+	</div>
+</template>
+
+
+
+<template name="editeur">
+<div id="editeur" class="editeur">
+<h2> Editor </h2>
+<input type="hidden" id="id" value="{{etape._id}}" name="id">
+<div class="row">
+	<div class="col-md-4">
+		
+	<table class="table_editeur">
+		<tbody>
+	
+		<tr><td><label>Step number : </label></td>
+			<td><div class="form-group"><input type="number" id="num_etape" name="num_etape" class="form-control" value="{{etape.num_etape}}"></div></td>
+		</tr>
+		<tr><td><label>Name of the step : </label></td>
+			<td><div class="form-group"><input type="text" id="nom_etape" class="form-control" value="{{etape.nom_etape}}"></div></td> 
+		</tr> 
+		<tr><td><label>Jig rev : </label></td> 
+			 <td><div class="form-group"><input type="text" id="jig_rev" class="form-control" value="{{etape.jig_rev}}"></div></td> 
+		</tr> 
+		<tr><td><label>Comment of the step : </label></td> 
+			<td><div class="form-group"><textarea class="form-control" id="commentaire_etape">{{etape.commentaire_etape}}</textarea></div></td> 
+		 </tr> 
+		
+		<tr><td><label>Templates : </label></td>
+			<td><div class="form-group"><button type="button" id="add_template_a" class="form-control">Add template A</button></div></td> 
+			<td><div class="form-group"><button type="button" id="add_template_b" class="form-control">Add template B</button></div></td> 
+		</tr> 
+	</tbody> 
+	</table> 
+</div>
+<div class="col-md-8">
+<form class="form-inline" id="add_valeur_form"> 
+<input type="hidden" id="id_val" value="{{etape._id}}" name="id">
+<table class="table_editeur_field">
+	<tbody>
+
+	
+		<tr><td><label>Field value check : </label></td></tr>
+		<tr>
+			
+			
+			<td><div class="form-group"><input type="text" class="form-control" name="name_champ_ctrl" placeholder="Name"></div></td>
+			<td><div class="form-group"><input type="text" class="form-control" name="min" placeholder="min"></div></td>
+			<td><div class="form-group"><input type="text" class="form-control" name="max" placeholder="max"></div></td>
+			<td><div class="form-group"><input type="text" class="form-control" name="normal" placeholder="normal"></div></td>
+			<td><div class="form-group"><button class="form-control" id="add_valeur">Append</button></div></td>
+			
+		</tr>
+	</tbody>
+	</table>
+	</form>
+
+	<form class="form-inline" id="add_valeur_nn_ctrl_form">
+	<input type="hidden" id="id_val" value="{{etape._id}}" name="id">
+	<table class="table_editeur_field">
+	<tbody>
+	
+		
+		<tr><td><label>Field not checking value : </label></td></tr>
+		<tr>
+
+			<td><div class="form-group"><input type="text" class="form-control" name="name_champ_nn_ctrl" placeholder="name"></div></td>
+			<td><div class="form-group"><button  class="form-control" id="add_valeur_nn_ctrl">Append</button></div></td>
+		
+		</tr>
+	</tbody>
+	</table>
+	</form>
+	<table class="table_editeur_field">
+		<tbody>
+			<tr><td><label>Field validate : </label></td></tr>
+			<tr>
+			<td><div class="form-group"><button type="button" class="form-control" id="add_valider">Append</button></div></td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<table class="table_editeur_field">
+	<tbody>
+		{{#each valeur_etape}}
+        <tr>
+			<td><span>Name:</span><div class="form-group"><input type="text" class="form-control" id="name_valeur" name="name_valeur" value="{{name}}"></div></td>
+			<td><span>Min:</span><div class="form-group"><input type="text" class="form-control" id="min" name="min" value="{{min}}"></div></td>
+			<td><span>Max:</span><div class="form-group"><input type="text" class="form-control" id="max" name="max" value="{{max}}"></div></td>
+			<td><span>Normal:</span><div class="form-group"><input type="text" class="form-control" id="normal" name="normal" value="{{normal}}"></div></td>
+			<td><span id="sup_valeur" class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span></td>
+			
+			
+		</tr>
+		{{/each}} 
+		
+		{{#each champ_etape}}
+        <tr>
+			<td><label>Name:</label></td>
+			<td><div class="form-group"><input type="text" class="form-control" name="name_champ" id="name_champ" value="{{name}}"></div></td>
+			<td><span id="sup_champ" class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span></td>
+
+			
+			
+		</tr>
+		{{/each}} 
+		
+	</tbody>
+	</table>
+	
+	
+		
+	
+	</div>
+</div>
+{{>summernote_editeur}}
+
+<button name="enregistrer" class="bp_enregistrer">Save</button>
+</div>
+</template>
+
+
+<template name="summernote_editeur">
+	<div id="summernote"></div>
+
+</template>
+
+<template name="etape">
+
+<div class="etape">
+	<div class="numero_etape"><span >Number  </span><input type="text" class="num_etape" name="number" value="{{num_etape}}"></div>
+	<div class="affiche_etape">{{{html_etape}}}</div>
+	<button name="Modifier" class="bp_modifier">Edit</button>
+	<button name="Supprimer" class="bp_supprimer">Remove</button>
+	
+</div>
+
+</template>
