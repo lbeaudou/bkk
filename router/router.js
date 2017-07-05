@@ -117,7 +117,7 @@ return Meteor.subscribe('ref');
 
 
 }} );
-Router.route('/production/:login/:reference/:revision/:numserie', {
+Router.route('/production/:login/:reference/:revision/:numof/:numserie', {
 	waitOn: function() {  
 	Meteor.subscribe('ref');
 	Meteor.subscribe('valeurs');
@@ -130,11 +130,13 @@ return Meteor.subscribe('etapes', this.params.reference);
 	var reference = this.params.reference;
 	var numserie = this.params.numserie;
 	var revision = this.params.revision;
+	var numof = this.params.numof;
 	var t = {
 		login,
 		reference,
 		numserie,
-		revision
+		revision,
+		numof
 		
 	}
 	
@@ -198,4 +200,17 @@ return Meteor.subscribe('reports');
 	});
 
 }
+});
+
+Router.route('/reports', {
+	waitOn: function() {  
+	
+	Meteor.subscribe('reports');
+return Meteor.subscribe('ref');
+	 },
+	
+action : function() {
+	this.render('allreport');
+}
+
 });

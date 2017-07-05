@@ -44,6 +44,7 @@ iron:router@1.1.2
 iron:url@1.1.0
 joncursi:socket-io-client@0.1.4
 jquery@1.11.10
+keylase:meteor-videojs@1.1.3
 launch-screen@1.1.1
 livedata@1.0.18
 logging@1.1.17

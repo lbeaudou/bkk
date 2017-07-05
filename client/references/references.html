@@ -6,6 +6,7 @@
         
         <li class="active"> <a href="/references">Reference</a></li>
         <li><a target="_blank" href="/production">Production</a></li>
+        <li><a target="_blank" href="/reports">Reports</a></li>
         
       </ul>
       
@@ -42,7 +43,16 @@
 			{{#each ref}}
 		<tr>
 			<td><span>{{reference}} </span></td>
-			<td><div class="checkbox"><label><input type="checkbox" class="valid_ref" name="valid_ref">{{validation}}</label></div></td> 
+			<td><div class="checkbox">
+			
+			{{#if validation}}
+			
+			<input type="checkbox" class="valid_ref" name="valid_ref" checked>
+			{{else}}
+			<input type="checkbox" class="valid_ref" name="valid_ref">
+			{{/if}}
+			
+			</div></td> 
 			<td><button class="btn btn-default" id="edit_ref">Edit</button></td>
 			<td><button class="btn btn-default" id="commit">Add revision</button></td>
 			<td><span>{{revision}}</span></td>
@@ -74,16 +84,18 @@
 <table class="bandeau_etape">
 		<tbody>
 			<tr>
-			 <td ROWSPAN="3" ><img src="/imgciee.png" width="300px"></td>
+			 <td ROWSPAN="4" ><img class="bandeau_img" src="/imgciee.png"></td>
 			</tr>
 			<tr>
 				<td>Sequenced Assembly : {{reference}}</td>
 				<td></td>
+				<td>Part in box</td>
 				<td>Step</td>
 			</tr>
 			<tr>
 				<td>Process Rev : {{revision}}</td>
 				<td>Jig Rev : {{jig_rev}}</td>
+				<td>{{partinbox_etape}}</td>
 				<td>{{num_etape}}</td>
 			</tr>
 		</tbody>

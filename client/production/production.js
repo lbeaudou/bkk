@@ -8,6 +8,7 @@ Template.production.onCreated(function(){
   this.reference = new ReactiveVar(this.data.reference);
   this.numserie = new ReactiveVar(this.data.numserie);
   this.revision = new ReactiveVar(this.data.revision);
+  this.numof = new ReactiveVar(this.data.numof);
   if('login' in this.data) {
   Session.set('login', this.data.login);
   } else {
@@ -28,6 +29,11 @@ Template.production.onCreated(function(){
   Session.set('revision', this.data.revision);
 	 } else {
 		 Session.set('revision',undefined);
+	 }
+	 if('numof' in this.data) {
+  Session.set('numof', this.data.numof);
+	 } else {
+		 Session.set('numof',undefined);
 	 }
  // console.log(this.data);
 
@@ -108,7 +114,9 @@ Template.production.events({
 	reference = Template.instance().reference.get();
 	numserie = Session.get('numserie');
 	login = Session.get('login');
-	
+	revision = Session.get('revision');
+	numof = Session.get('numof');
+		console.log(numof);
 		e.preventDefault();
 		const target = e.target;
 		
@@ -124,7 +132,11 @@ Template.production.events({
 			var name = array[i].id_input;
 			console.log(name);
 			var val = document.getElementById(name).value;
-			reports.insert({reference, numserie, login, date: new Date(), comment:array[i].name, value:val, num_etape});
+			if(val=='') { suivant = false; 
+			document.getElementById(name).style.background = 'red';
+			}
+			
+			reports.insert({reference, numserie, numof, login,  date: new Date(), comment:array[i].name, value:val, num_etape});
 		}
 		//verification des champs e
 		array = valeurs.find({id:_id}).fetch();
@@ -142,29 +154,43 @@ Template.production.events({
 		if(val < min || val > max) { console.log('nok');  
 		document.getElementById(name).style.background = 'red';
 		suivant =false;
-		reports.insert({reference, numserie, login, date: new Date(), comment:"nogo", value:val, num_etape}); //// reports
+		reports.insert({reference, numserie, numof,login, date: new Date(), comment:"nogo value", value:val, num_etape}); //// reports
 		} else {
 			console.log('ok');
 			document.getElementById(name).style.background = 'green';
-			reports.insert({reference, numserie, login, date: new Date(), comment:"go", value:val, num_etape}); ///reports
+			reports.insert({reference, numserie, numof,login, date: new Date(), comment:"go value", value:val, num_etape}); ///reports
 			}
-			
+			 
 		}
 		// verification des checkbox
 		if('check' in target && suivant == true) { 
 			i = 0;
 			if(length in target.check) { // si plusieur check box
 			for(var i in target.check) {
+				val = target.check[i].checked;
+				
 				if(target.check[i].checked==false) { 	
-						alert('Please verify verificatio - โปรดยืนยันการยืนยัน'); 
+						comment = "nogo checkbox "+num_etape+" - "+i;
+						reports.insert({reference, numserie, numof,login, date: new Date(), comment, value:val, num_etape});
+						alert('Please verify verification - โปรดยืนยันการยืนยัน'); 
 						suivant = false;
 						return false;
-						}
+						} else {
+							if(target.check[i].checked==true) {
+							comment = "go checkbox "+num_etape+" - "+i;
+						reports.insert({reference, numserie, numof,login, date: new Date(), comment, value:val, num_etape});
+						}}
 			}
 			} else  { // si une seul checkbox
+			val = target.check.checked;
 				if(target.check.checked==false) { 
+					comment = "nogo checkbox "+num_etape+" - 0";
 					alert('Please verify verification - โปรดยืนยันการยืนยัน'); 
+					reports.insert({reference, numserie, numof,login, date: new Date(), comment, value:val, num_etape});
 					suivant = false;
+					} else if(target.check.checked==true) {
+						comment = "go checkbox "+num_etape+" - 0";
+						reports.insert({reference, numserie, numof,login, date: new Date(), comment, value:val, num_etape});
 					}
 			}
 		
@@ -178,7 +204,7 @@ Template.production.events({
 		if(suivant == true) { // incrementation du numero d'etape
 			num = Template.instance().num_etape.get() + 1;
 		Template.instance().num_etape.set(num);
-			reports.insert({reference, numserie, login, date: new Date(), comment:"go", num_etape});
+			reports.insert({reference, numserie, numof, login, date: new Date(), comment:"step go", num_etape});
 		} 
 		return false; 
 		
@@ -188,46 +214,60 @@ Template.production.events({
 		console.log(number);
 		if(number > 0) {
 			number = Template.instance().num_etape.get() - 1;
+			Template.instance().num_etape.set(number);
 		} else {
 			number = 0;
+			Template.instance().num_etape.set(number);
+			Router.go('/production/'+login+'/');
 		}
-		Template.instance().num_etape.set(number);
+		
 		
 			return false;
 	}, 
+	'click #return_home': function() {
+		reference = Template.instance().reference.get();
+	numserie = Session.get('numserie');
+	login = Session.get('login');
+	revision = Session.get('revision');
+		Router.go('/production/'+login+'/');
+	
+		
+	}
 
 });
 
 
 Template.login.events({
-	'submit .form_login': function(e) {
+	'submit #form_login': function(e) {
 		e.preventDefault();
 		const target = e.target;
 		
 		login = target.login.value;
 		numserie = target.numserie.value;
+		numof = target.numof.value;
 		tab = ref.findOne({_id:target.reference.value});
 		
 		reference = tab.reference;
 		revision = tab.revision;
+		if(login != '' && numserie != '' && numof != '' && reference != '' && revision != '') {
 		if(reports.find({reference, numserie}).count()>0) {
 			var go = confirm('The serial number ' + numserie + ' has already recordings - หมายเลขซีเรียล ' + numserie + '  มีการบันทึกอยู่แล้ว');
 				if(go==true) {
-					Router.go('/production/'+login+'/'+reference+'/'+revision+'/'+numserie);
+					Router.go('/production/'+login+'/'+reference+'/'+revision+'/'+numof+'/'+numserie);
 				} 
 			} else {
 				
-				Router.go('/production/'+login+'/'+reference+'/'+revision+'/'+numserie);
+				Router.go('/production/'+login+'/'+reference+'/'+revision+'/'+numof+'/'+numserie);
 			}
 		
 		
-		
+		}
 		
 		
 	},
 	
-	'click .refresh': function() {
-		
+	'click #refresh': function() {
+		Router.go('/production/');
 		Session.set('reference', undefined);
 	}
 	

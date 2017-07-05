@@ -43,6 +43,7 @@ Template.summernote_editeur.rendered = function () { // affichage de summernote
 		 } else {
 		 node.style.width= '200px';
 		 }
+		 node.style.margin ='0 auto';
           $('#summernote').summernote("insertNode", node);
       }
 
@@ -51,16 +52,15 @@ Template.summernote_editeur.rendered = function () { // affichage de summernote
         reader.readAsDataURL(file);
       }
   },
-  // onEnter: function(event) {
-      // console.log(event);
-	  // event.preventDefault();
-	  // var node = document.createElement('br');
-	  // $('#summernote').summernote("insertNode", node);
-		// e = jQuery.Event("keypress")
-// e.which = 40 //choose the one you want
-      
-	  // return false;
-    // }
+  toolbar: [
+    // [groupName, [list of button]]
+    ['style', ['bold', 'italic', 'underline', 'clear']],
+    ['font', ['strikethrough', 'superscript', 'subscript']],
+    ['fontsize', ['fontsize']],
+    ['color', ['color']],
+    ['para', ['ul', 'ol', 'paragraph']],
+    ['height', ['height']]
+  ]
   }
     });
 	
@@ -179,7 +179,7 @@ Template.summernote_editeur.rendered = function () { // affichage de summernote
 	 'click #add_template_a': function() {
 		 var ok = confirm('This operation will erase all data in the frame.');
 			if(ok) {
-		 var html = '<div class="template_a_top"><div class="template_a_top_body"><p>Text</p></div></div><div class="template_a_body"><div class="template_a_double"><div class="template_a_double_body"><p>Text</p></div></div><div class="template_a_double"><div class="template_a_double_body"><p>Text</p></div></div></div>';
+		 var html = '<div class="template_a_top"><div class="template_a_top_body"><h3>Text</h3></div></div><div class="template_a_body"><div class="template_a_double"><div class="template_a_double_body"><p>Text</p></div></div><div class="template_a_double"><div class="template_a_double_body"><p>Text</p></div></div></div>';
 		$('#summernote').summernote('code', html);
 	 }
 		 
@@ -188,7 +188,15 @@ Template.summernote_editeur.rendered = function () { // affichage de summernote
 	 'click #add_template_b': function() {
 		 var ok = confirm('This operation will erase all data in the frame.');
 			if(ok) {
-		 var html = '<div class="template_a_top"><div class="template_a_top_body"><p>Text</p></div></div><div class="template_b_simple"><div class="template_b_simple_body"><p>Text</p></div></div>';
+		 var html = '<div class="template_a_top"><div class="template_a_top_body"><h3>Text</h3></div></div><div class="template_b_simple"><div class="template_b_simple_body"><p>Text</p></div></div>';
+		$('#summernote').summernote('code', html);
+		 }
+	 },
+	 
+	 'click #add_template_c': function() {
+		 var ok = confirm('This operation will erase all data in the frame.');
+			if(ok) {
+		 var html = '<div class="template_c_top"><div class="template_c_top_body"><h3>Text</h3></div></div><div class="template_c_top_right"></div><br><div class="template_b_simple"><div class="template_b_simple_body"><p>Text</p></div></div>';
 		$('#summernote').summernote('code', html);
 		 }
 	 },
@@ -243,6 +251,30 @@ Template.summernote_editeur.rendered = function () { // affichage de summernote
 		 
 		 
 		 
+	 },'submit #add_text_ctrl_form': function(e) {
+		 reference = Session.get('reference');
+		 e.preventDefault();
+		const target = e.target;
+		name = target.name_text_ctrl.value;
+		val = target.value_text_ctrl.value;
+		 
+		 id = target.id.value;
+		  var id_input = Random.id();
+		champs.insert({id, name, id_input, 'type':'check', val}, function(err, docsInserted){ 
+		var id=docsInserted;
+		var node = document.createElement('INPUT');
+		 node.type = 'text';
+		 node.name = id_input;
+		 node.id = id_input;
+		 node.class = id_input;
+		 node.placeholder= name;
+		 node.style.cssText = 'width:100px;height:35px;';
+		$('#summernote').summernote('insertNode', node);
+		console.log(docsInserted) });
+	
+		 
+		 
+		 
 	 },
 	 
 	 'click .bp_enregistrer':function(e) {
@@ -251,6 +283,7 @@ Template.summernote_editeur.rendered = function () { // affichage de summernote
 		 var num_etape = Number(document.getElementById('num_etape').value);
 		 var num = document.getElementById('num_etape').value;
 		 var nom_etape = document.getElementById('nom_etape').value;
+		 var partinbox_etape = document.getElementById('partinbox_etape').value;
 		 var commentaire_etape = document.getElementById('commentaire_etape').value;
 		 var id_val = document.getElementById('id_val').value;
 		 var jig_rev = document.getElementById('jig_rev').value;
@@ -262,9 +295,9 @@ Template.summernote_editeur.rendered = function () { // affichage de summernote
 				  
 				tab = etapes.findOne({_id:id});
 				
-				etapes.update({_id:tab._id}, {$set: {nom_etape, commentaire_etape, html_etape, jig_rev}});
+				etapes.update({_id:tab._id}, {$set: {nom_etape, commentaire_etape, partinbox_etape, html_etape, jig_rev}});
 			} else {
-			etapes.insert({reference, num_etape, nom_etape, commentaire_etape, html_etape, jig_rev, revision});
+			etapes.insert({reference, num_etape, nom_etape, commentaire_etape, partinbox_etape, html_etape, jig_rev, revision});
 			tab = etapes.findOne({reference, num_etape, revision});
 			id = tab._id;
 			}
@@ -336,6 +369,32 @@ Template.summernote_editeur.rendered = function () { // affichage de summernote
 		normal = e.target.value;
 		 valeurs.update({_id:this._id}, {$set: {normal}});	 
 	 },
+	 'click #addvideo': function() {
+		url = prompt('Enter the url of the video :');
+		 
+		html = '<video id="videp" loop controls autoplay preload="auto" class="video-js vjs-default-skin" controls preload="auto" width="1000" height="800" poster="/imgciee.png" >';
+		html = html + '<source src="'+url+'" type="video/mp4" />';
+		html = html +'<p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>';
+		html = html +'</video>';
+		$('#summernote').summernote('code', html);
+		 
+	 },
+	 'click #imgbackground': function() {
+		 var img = document.getElementById('editeur').getElementsByTagName('img');
+		 h = img[0].height;
+		 w = img[0].width;
+		 src = img[0].src;
+		 console.log(h);
+		 console.log(w);
+		 
+		 
+		 div = document.createElement('div');
+		 div.style.width=w;
+		 div.style.height=h;
+		 div.style.cssText = 'width:'+w+'px;height:'+h+'px;background: url('+src+') no-repeat;';
+
+		  $('#summernote').summernote("insertNode", div);
+	 }
 
 	 
  });

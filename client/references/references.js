@@ -28,7 +28,7 @@ Template.references.events({
 		if(ref.find({reference}).count()>0) {
 			alert('The reference already exists');
 		} else {
-		ref.insert({reference, date: new Date(), validation:false, revision:"A0"}); 
+		ref.insert({reference, date: new Date(), validation:false, revision:"00"}); 
 		}
 	}, 
 	'click .valid_ref': function(e) {
@@ -63,6 +63,7 @@ Template.references.events({
 	'click #commit': function() {
 		reference = this.reference;
 		revision = this.revision;
+		Meteor.subscribe('etapes', reference, function() {
 		tab = etapes.find({reference, revision}).fetch();
 		revision = prompt('Give a version number');
 		if(revision) {
@@ -106,6 +107,7 @@ Template.references.events({
 		console.log(tab);
 			}
 		
+	});
 	},
 	'click #all': function() {
 		tab = etapes.find({reference:this.reference, revision:this.revision}).fetch();

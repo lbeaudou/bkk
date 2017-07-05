@@ -1,10 +1,32 @@
 <template name="reports">
-<div class="body">
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div  class="container">
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Reports</a></li>
+        <li><a href="/references">Reference</a></li>
+        <li><a target="_blank" href="/production">Production</a></li>
+        <li><a href="/reports">Reports Search</a></li>
+		
+        
+      </ul>
+      
+      <ul class="nav navbar-nav navbar-right">
+        <li><A HREF="mailto:leo.beaudou@gmail.com?subject=Error20%LABFLOW&cc=tbeaudou@cieeinterconnect.com&body=Request"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span></A></li>
+        <li><A HREF="mailto:leo.beaudou@gmail.com?subject=Help20%LABFLOW&cc=tbeaudou@cieeinterconnect.com&body=Request"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></A></li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+<div style="margin-top:60px;"  class="container">
+
 	<center><h1>Report</h1></center>
-<table class="tab_report">
+<table class="table table-bordered">
 	<tbody>
 		<tr>
 			<td>Login</td>
+			<td>Numof</td>
 			<td>Date</td>
 			<td>num step</td>
 			<td>Comment</td>
@@ -14,6 +36,7 @@
 {{#each go}}
 		<tr>
 			<td>{{login}}</td>
+			<td>{{numof}}</td>
 			<td>{{date}}</td>
 			<td>{{num_etape}}</td>
 			<td>{{comment}}</td>
@@ -36,7 +59,7 @@
     <canvas id="myChart" width="1200" height="400"></canvas>
 	<hr>
 	
-<table class="tab_time">
+<table class="table">
 	<tbody>
 		<tr>
 			<td>Step</td>
@@ -54,4 +77,73 @@
 	</tbody>
 </table>
 
+</template>
+
+<template name="allreport">
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div  class="container">
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Reports</a></li>
+        <li><a href="/references">Reference</a></li>
+        <li><a target="_blank" href="/production">Production</a></li>
+		
+        
+      </ul>
+      
+      <ul class="nav navbar-nav navbar-right">
+        <li><A HREF="mailto:leo.beaudou@gmail.com?subject=Error20%LABFLOW&cc=tbeaudou@cieeinterconnect.com&body=Request"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span></A></li>
+        <li><A HREF="mailto:leo.beaudou@gmail.com?subject=Help20%LABFLOW&cc=tbeaudou@cieeinterconnect.com&body=Request"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></A></li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+<div style="margin-top:60px;" class="container"> 
+<h1>Reports</h1>
+	<form id="checkreport" class="form-inline">
+  <div class="form-group">
+    <label for="ref">Reference</label>
+    <select class="form-control" id="ref">
+	{{#each tabref}}
+		<option value="{{reference}}">{{reference}}</option>
+	{{/each}} 	
+		
+</select>
+  </div>  
+  <div class="form-group">
+    <label for="serialnumber">Serial/Part number</label>
+    <input type="text" class="form-control" id="serialnumber" placeholder="Serial/Part number">
+  </div>
+  
+  <button type="submit" class="btn btn-default">Check</button>
+</form>
+<br>
+<h1>Last data save</h1>
+<table class="table">
+	<tbody>
+		<tr>
+			<td>Login</td>
+			<td>Serial/part number</td>
+			<td>Numof</td>
+			<td>Date</td>
+			<td>num step</td>
+			<td>Comment</td>
+			<td>value</td>
+		</tr>
+		
+{{#each lastenter}}
+		<tr>
+			<td>{{login}}</td>
+			<td><a href="/reports/{{reference}}/{{numserie}}">{{numserie}}</a></td>
+			<td>{{numof}}</td>
+			<td>{{date}}</td>
+			<td>{{num_etape}}</td>
+			<td>{{comment}}</td>
+			<td>{{value}}</td>
+        </tr>
+    {{/each}} 
+	</tbody>
+</table>
+</div>
 </template>

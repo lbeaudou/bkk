@@ -5,9 +5,10 @@
   <div class="container">
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">{{reference}} : edit </a></li>
+        <li class="active"><a href="#">{{reference}} : edit </a></li> 
         <li><a href="/references">Reference</a></li>
         <li><a target="_blank" href="/production">Production</a></li>
+		<li><a target="_blank" href="/reports">Reports</a></li> 
         
       </ul>
       
@@ -55,11 +56,19 @@
 		</tr> 
 		<tr><td><label>Comment of the step : </label></td> 
 			<td><div class="form-group"><textarea class="form-control" id="commentaire_etape">{{etape.commentaire_etape}}</textarea></div></td> 
+		 </tr>
+		 <tr><td><label>Part in box : </label></td> 
+			<td><div class="form-group"><textarea class="form-control" id="partinbox_etape">{{etape.partinbox_etape}}</textarea></div></td> 
 		 </tr> 
 		
 		<tr><td><label>Templates : </label></td>
 			<td><div class="form-group"><button type="button" id="add_template_a" class="form-control">Add template A</button></div></td> 
 			<td><div class="form-group"><button type="button" id="add_template_b" class="form-control">Add template B</button></div></td> 
+			<td><div class="form-group"><button type="button" id="add_template_c" class="form-control">Add template C</button></div></td> 
+		</tr> 
+		<tr><td><label>Video : </label></td>
+			<td><div class="form-group"><button type="button" id="addvideo" class="form-control">Add Video</button></div></td> 
+			
 		</tr> 
 	</tbody> 
 	</table> 
@@ -91,18 +100,36 @@
 	<table class="table_editeur_field">
 	<tbody>
 	
-		
+		 
 		<tr><td><label>Field not checking value : </label></td></tr>
 		<tr>
 
 			<td><div class="form-group"><input type="text" class="form-control" name="name_champ_nn_ctrl" placeholder="name"></div></td>
 			<td><div class="form-group"><button  class="form-control" id="add_valeur_nn_ctrl">Append</button></div></td>
+		 
+		</tr>
+	</tbody>
+	</table>
+	</form>
+	
+	<form class="form-inline" id="add_text_ctrl_form">
+	<input type="hidden" id="id_val" value="{{etape._id}}" name="id">
+	<table class="table_editeur_field">
+	<tbody>
+	
+		 
+		<tr><td><label>Field checking text value : </label></td></tr>
+		<tr>
+
+			<td><div class="form-group"><input type="text" class="form-control" name="name_text_ctrl" placeholder="name"></div></td>
+			<td><div class="form-group"><input type="text" class="form-control" name="value_text_ctrl" placeholder="value"></div></td>
+			<td><div class="form-group"><button  class="form-control" id="add_text_ctrl">Append</button></div></td>
 		
 		</tr>
 	</tbody>
 	</table>
 	</form>
-	<table class="table_editeur_field">
+	<table class="table_editeur_field"> 
 		<tbody>
 			<tr><td><label>Field validate : </label></td></tr>
 			<tr>
@@ -138,9 +165,18 @@
 		
 	</tbody>
 	</table>
+	<hr>
+	<table class="table_editeur_field"> 
+		<tbody>
+			
+			<tr>
+			<td><div class="form-group"><button type="button" class="form-control" id="imgbackground">Img background</button></div></td>
+			</tr>
+		</tbody>
+	</table>
 	
 	
-		
+		  
 	
 	</div>
 </div>
@@ -152,10 +188,10 @@
 
 
 <template name="summernote_editeur">
-	<div id="summernote"></div>
+	<div id="summernote"></div>  
 
 </template>
-
+ 
 <template name="etape">
 
 <div class="etape">
@@ -167,3 +203,5 @@
 </div>
 
 </template>
+
+

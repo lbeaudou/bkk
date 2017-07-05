@@ -96,3 +96,35 @@ Template.moreCharts.helpers({
 function random() {
     return Math.floor((Math.random() * 100) + 1);
 }
+
+
+Template.allreport.helpers({
+	tabref:function() {
+		return ref.find({});
+		
+		
+	},
+	lastenter: function() {
+		var options = { "sort": [['date','desc']], "limit":25 };
+		tb = reports.find({},options);
+		return tb;
+		
+		
+	}
+	
+	
+});
+
+Template.allreport.events({ 
+	'submit #checkreport':function(e) {
+		console.log('go');
+		e.preventDefault();
+		ref = e.target.ref.value;
+		numserie = e.target.serialnumber.value;
+		Router.go('/reports/'+ref+'/'+numserie);
+		
+	}
+	
+	
+	
+});
