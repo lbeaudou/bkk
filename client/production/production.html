@@ -8,7 +8,7 @@
 			 <td ROWSPAN="4" ><img class="bandeau_img" src="/imgciee.png"></td>
 			</tr>
 			<tr>
-				<td>Sequenced Assembly : {{html.reference}}</td>
+				<td>Sequenced Assembly : {{name_ref}}</td>
 				<td></td>
 				<td>Part in box</td>
 				<td>Step</td>         
@@ -16,7 +16,7 @@
 			<tr>
 				<td>Process Rev : {{html.revision}}</td>
 				<td>Jig Rev : {{html.jig_rev}}</td>
-				<td>{{html.partinbox_etape}}</td>
+				<td>{{html.partinbox_etape}}</td>             
 				<td>{{html.num_etape}}</td>
 			</tr> 
 		</tbody>  
@@ -24,18 +24,18 @@
 		<div class="affiche_etape"> 
 			 
 			{{{html.html_etape}}}
-			 
+			     
 			 
 			
 		</div>
 		<input type="hidden" id="id" name="id" value="{{html._id}}">
-		<button type="button" name="bp_retour" class="bp_retour btn btn-default" value="retour">Return - กลับ</button>
-		<button type="submit" name="bp_suivant" class="bp_suivant btn btn-default" value="suivant">Next - ดังต่อไปนี้</button>
+		<button type="button" name="bp_retour" id="retour" class="bp_retour btn btn-default" value="retour">Return - กลับ</button>
+		<button type="submit" name="bp_suivant"  id="suivant" class="bp_suivant btn btn-default" value="suivant">Next - ดังต่อไปนี้</button>
 		</form>
 	</div>
  <div class="home">
  <button id="return_home" type="button" class="btn btn-default btn-lg">
- <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+ <span class="glyphicon glyphicon-home" aria-hidden="true"></span> 
  </button>
  </div>
 </div>
@@ -62,7 +62,7 @@
 			 <div class="input-group">
 			<select class="form-control" name="reference">
 				{{#each references}}
-          <option value="{{_id}}">{{reference}}</option>
+          <option value="{{_id}}">{{name_ref}}</option>
  
 				{{/each}} 
 

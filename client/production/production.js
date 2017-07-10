@@ -102,7 +102,14 @@ Template.production.helpers({
 		
 		
 		
-	} 
+	},
+		name_ref: function() {
+			reference = Template.instance().reference.get();
+			revision = Session.get('revision');
+			tab = ref.findOne({reference, revision});
+			return  tab.name_ref;
+			
+		}
 });
 
 
@@ -134,6 +141,23 @@ Template.production.events({
 			var val = document.getElementById(name).value;
 			if(val=='') { suivant = false; 
 			document.getElementById(name).style.background = 'red';
+			} else {
+				document.getElementById(name).style.background = 'green';
+			}
+			
+			 
+			if('type' in array[i]) {
+				
+				if(array[i].val == val) {
+					
+					document.getElementById(name).style.background = 'green';
+				} else {
+					document.getElementById(name).style.background = 'red';
+					reports.insert({reference, numserie, numof,login, date: new Date(), comment:"ngo text", value:val, num_etape}); ///reports
+					suivant = false;
+				}
+				
+				
 			}
 			
 			reports.insert({reference, numserie, numof, login,  date: new Date(), comment:array[i].name, value:val, num_etape});
@@ -149,6 +173,7 @@ Template.production.events({
 			var min =  array[i].min;
 			var max =  array[i].max;
 			var normal =  array[i].normal;
+			
 			console.log(min);
 			console.log(val);
 		if(val < min || val > max) { console.log('nok');  

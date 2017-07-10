@@ -21,7 +21,11 @@
 </nav>
 <div style="margin-top:60px;"  class="container">
 
-	<center><h1>Report</h1></center>
+	<center><h1>Report : {{reference}} - {{numserie}}</h1></center>
+	<button type="button" id="down_report" class="btn btn-primary">Download Report</button>
+	<button type="button" id="down_times" class="btn btn-primary">Download Times</button>
+	<br>
+	<br>
 <table class="table table-bordered">
 	<tbody>
 		<tr>
@@ -125,6 +129,7 @@
 		<tr>
 			<td>Login</td>
 			<td>Serial/part number</td>
+			<td>Reference</td>
 			<td>Numof</td>
 			<td>Date</td>
 			<td>num step</td>
@@ -136,6 +141,7 @@
 		<tr>
 			<td>{{login}}</td>
 			<td><a href="/reports/{{reference}}/{{numserie}}">{{numserie}}</a></td>
+			<td>{{reference}}</td>
 			<td>{{numof}}</td>
 			<td>{{date}}</td>
 			<td>{{num_etape}}</td>

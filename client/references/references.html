@@ -23,6 +23,11 @@
 		<h1>Add Reference</h1>
 <form id="add_ref" class="form-inline">
 <div class="form-group">
+		<select class="form-control" name="type_ref">
+			<option value="mounting">Mounting</option>
+		</select>
+</div>
+<div class="form-group">
     <input type="text" class="form-control" id="name_ref" placeholder="Name">
  </div>
  <button type="submit" class="btn btn-default">Save</button>
@@ -42,7 +47,7 @@
 		</tr>
 			{{#each ref}}
 		<tr>
-			<td><span>{{reference}} </span></td>
+			<td><input type="text" id="name_ref" value="{{name_ref}}"></td>
 			<td><div class="checkbox">
 			
 			{{#if validation}}
@@ -87,7 +92,7 @@
 			 <td ROWSPAN="4" ><img class="bandeau_img" src="/imgciee.png"></td>
 			</tr>
 			<tr>
-				<td>Sequenced Assembly : {{reference}}</td>
+				<td>Sequenced Assembly : {{name_ref}}</td>
 				<td></td>
 				<td>Part in box</td>
 				<td>Step</td>

@@ -1,3 +1,32 @@
+<head>
+	<title>LabFlow</title>
+	
+	
+	<script>
+	
+	function checkSubmit(e) {
+	
+	
+   if(e &&(e.keyCode == 39 || e.keyCode == 32)) {
+      document.getElementById("suivant").click();
+   }
+   if(e && e.keyCode == 37) {
+      document.getElementById("retour").click();
+   }
+}
+
+</script>
+
+
+</head>
+
+<body onkeydown="return checkSubmit(event)">
+
+
+</body>
+
+
+
 <template name="loading">
   <div class="body">
 	<div class="spin">
@@ -11,5 +40,6 @@
 
 </div>
 </template>
+
 
 

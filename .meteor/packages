@@ -29,3 +29,5 @@ twbs:bootstrap
 http
 joncursi:socket-io-client
 keylase:meteor-videojs
+mrt:jquery-ui
+lfergon:exportcsv

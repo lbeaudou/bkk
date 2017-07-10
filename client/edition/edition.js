@@ -15,10 +15,47 @@ Template.edition.onCreated(function(){
  Session.set('reference', this.data.reference);
  Session.set('revision', this.data.revision);
 
+
+
+
 });
 
+function droppablemain() {
+	
+	$("#container").droppable({
+        drop: function (event, ui) {
+            var $canvas = $(this);
+			offset = $canvas.offset()
+           
+            if (!ui.draggable.hasClass('canvas-element')) {
+                var $canvasElement = ui.draggable.clone();
+                $canvasElement.addClass('canvas-element');
+                $canvasElement.draggable({
+                    containment: '#container'
+                });
+                $canvas.append($canvasElement);
+                $canvasElement.css({
+                    left: (ui.position.left- offset.left),
+                    top: (ui.position.top),
+                    position: 'absolue'
+                });
+            }
+        }
+    });
+	
+}
 
 
+Template.editeur.rendered = function() {
+	
+	$(".check").draggable({
+        helper: "clone",
+        cursor: 'move'
+    });
+	
+	droppablemain();
+    
+};
 
 
 
@@ -37,6 +74,7 @@ Template.summernote_editeur.rendered = function () { // affichage de summernote
           
          var node = document.createElement('IMG');
 		 node.src = reader.result;
+		 node.id = "img";
 		 var taille = confirm('Image on full screen ?');
 		 if(taille) {
 			 node.style.height = '799px';
@@ -45,27 +83,33 @@ Template.summernote_editeur.rendered = function () { // affichage de summernote
 		 }
 		 node.style.margin ='0 auto';
           $('#summernote').summernote("insertNode", node);
+		  
       }
 
       if (file) {
         // convert fileObject to datauri
         reader.readAsDataURL(file);
       }
-  },
-  toolbar: [
-    // [groupName, [list of button]]
-    ['style', ['bold', 'italic', 'underline', 'clear']],
-    ['font', ['strikethrough', 'superscript', 'subscript']],
-    ['fontsize', ['fontsize']],
-    ['color', ['color']],
-    ['para', ['ul', 'ol', 'paragraph']],
-    ['height', ['height']]
-  ]
   }
-    });
+	
+	  },toolbar:[
+	  ['insert', ['template']],
+        ['style',['style']],
+        ['font',['bold','italic','underline','clear']],
+        ['fontname',['fontname']],
+        ['color',['color']],
+        ['para',['ul','ol','paragraph']],
+        ['height',['height']],
+        ['table',['table']],
+        ['insert',['media','link','hr', 'picture']],
+        ['view',['fullscreen','codeview']],
+        ['help',['help']]
+    ],
+	disableDragAndDrop: true,
+	});
+	$('#summernote').summernote("code", '<div id="container" style="width:100%;height:100%;"></div>');
 	
 	
-
 	
   };
 
@@ -80,6 +124,8 @@ Template.summernote_editeur.rendered = function () { // affichage de summernote
 			
 			for(html_etape in tab) {
 				$('#summernote').summernote('code', tab.html_etape);
+				droppablemain();
+				$('.check').draggable();
 			}
 	   return tab;
 	   
@@ -101,12 +147,16 @@ Template.summernote_editeur.rendered = function () { // affichage de summernote
 			 "_id":id
 			  
 		  };
+		 
 			return t;
+			
 		} else {
 			var t = {
 				"num_etape":1
 			}
+			
 			return t;
+			
 		}
 	   }
 	 },
@@ -131,13 +181,26 @@ Template.summernote_editeur.rendered = function () { // affichage de summernote
 		 id = Session.get('new_id');
 		}
 		
-		 return champs.find({id});
+		
+		 tab = champs.find({id, 'type': {'$ne':'check'} }); 
+	 
+	
+		 return tab;
 		 
 	 },
 	 
-	 reference: function() {
+	 champ_etape_ctrl: function() {
 		 
-		 return Session.get('reference');
+		 if(Session.get('id')!='load') { 
+		tab = etapes.findOne({_id:Session.get('id')});  
+		
+		id = tab._id;
+		} else {
+		 id = Session.get('new_id');
+		}
+		
+		 return champs.find({id, 'type':'check'});
+		 
 		 
 	 }
 	 
@@ -167,20 +230,46 @@ Template.summernote_editeur.rendered = function () { // affichage de summernote
 		 var options = { "sort": [['num_etape','asc']] };
 		  return etapes.find({reference, revision},options);
 		  },
+	 name_ref: function() {
+		 
+		 reference = Session.get('reference');
+		 tab = ref.findOne({reference}); 
+		 
+		 return tab.name_ref;  
+	 }
  });
  
  Template.editeur.events({
 	 'click #add_valider': function() {
-		 var node = document.createElement('INPUT');
-		 node.type = 'checkbox';
-		 node.name = 'check';
-		$('#summernote').summernote('insertNode', node);
+		 
+		  // var node = document.createElement('DIV');
+		 // node.style.background = 'green';
+				 // node.style.width='60px';
+		 // node.style.padding='25px';
+		 // node.className = 'check';
+		 $( ".objet" ).append('<div class="check" style="background: green; width: 60px; padding: 25px; "><input type="checkbox" name="check"></div>');
+		// $('#summernote').summernote('insertNode', node);
+		 // var node = document.createElement('INPUT');
+		 // node.type = 'checkbox';
+		// node.name = 'check';
+		
+		// $('#summernote').summernote('insertNode', node);
+		$('.check').draggable({
+		revert: "invalid", // when not dropped, the item will revert back to its initial position
+		helper: "clone",
+		cursor: "move"
+	});
+		//$('.check').resizable();
+
+
+		 
 	 },
 	 'click #add_template_a': function() {
 		 var ok = confirm('This operation will erase all data in the frame.');
 			if(ok) {
-		 var html = '<div class="template_a_top"><div class="template_a_top_body"><h3>Text</h3></div></div><div class="template_a_body"><div class="template_a_double"><div class="template_a_double_body"><p>Text</p></div></div><div class="template_a_double"><div class="template_a_double_body"><p>Text</p></div></div></div>';
+		 var html = '<div class="template_a_top"><div id="test" class="template_a_top_body"><h3>Text</h3></div></div><div class="template_a_body"><div class="template_a_double"><div class="template_a_double_body"><p>Text</p></div></div><div class="template_a_double"><div class="template_a_double_body"><p>Text</p></div></div></div>';
 		$('#summernote').summernote('code', html);
+	
 	 }
 		 
 	 }, 
@@ -217,6 +306,14 @@ Template.summernote_editeur.rendered = function () { // affichage de summernote
 		 var id_input = Random.id();
 		valeurs.insert({id, name, type:"valeur_ctrl", min, max, normal, id_input}, function(err, docsInserted){ 
 		var id=docsInserted;
+		
+		  var node = document.createElement('DIV');
+		 node.style.background = 'grey';
+		 node.style.width='150px';
+		 node.style.padding='10px';
+		 node.className = 'champs';
+		 node.id = id_input+"div";
+		$('#summernote').summernote('insertNode', node);
 		var node = document.createElement('INPUT');
 		 node.type = 'text';
 		 node.name = id_input;
@@ -225,7 +322,10 @@ Template.summernote_editeur.rendered = function () { // affichage de summernote
 		 node.placeholder= name;
 		 node.style.cssText = 'width:100px;height:35px;';
 		$('#summernote').summernote('insertNode', node);
-		console.log(docsInserted) });
+		$('.champs').draggable();
+		
+		
+		});
  
 	 },
 	 'submit #add_valeur_nn_ctrl_form': function(e) {
@@ -237,16 +337,28 @@ Template.summernote_editeur.rendered = function () { // affichage de summernote
 		 id = target.id.value;
 		  var id_input = Random.id();
 		champs.insert({id, name, id_input}, function(err, docsInserted){ 
-		var id=docsInserted;
-		var node = document.createElement('INPUT');
-		 node.type = 'text';
-		 node.name = id_input;
-		 node.id = id_input;
-		 node.class = id_input;
-		 node.placeholder= name;
-		 node.style.cssText = 'width:100px;height:35px;';
-		$('#summernote').summernote('insertNode', node);
-		console.log(docsInserted) });
+		// var id=docsInserted;
+		 // var node = document.createElement('DIV');
+		 // node.style.background = 'grey';
+		 // node.style.width='150px';
+		 // node.style.padding='15px';
+		 // node.className = 'champs';
+		 // node.id = id_input+"div";
+		// $('#summernote').summernote('insertNode', node);
+		// var node = document.createElement('INPUT');
+		 // node.type = 'text';
+		 // node.name = id_input;
+		 // node.id = id_input;
+		 // node.class = id_input;
+		 // node.placeholder= name;
+		 // node.style.cssText = 'width:100px;height:35px;';
+		// $('#summernote').summernote('insertNode', node);
+		html = '<div class="champs ui-draggable" id="'+ id_input +'div" style="background: grey; width: 150px; padding: 15px; position: relative;">';
+		html = html +'<input type="text" name="'+id_input +'" id="'+id_input+'" placeholder="'+name+'" style="width: 100px; height: 35px;"></div>';
+		 $( ".objet" ).append(html);
+		$('.champs').draggable(); 
+		
+		});
 	
 		 
 		 
@@ -262,6 +374,13 @@ Template.summernote_editeur.rendered = function () { // affichage de summernote
 		  var id_input = Random.id();
 		champs.insert({id, name, id_input, 'type':'check', val}, function(err, docsInserted){ 
 		var id=docsInserted;
+		 var node = document.createElement('DIV');
+		 node.style.background = 'grey';
+		 node.style.width='150px';
+		 node.style.padding='15px';
+		 node.className = 'champs';
+		 node.id = id_input+"div";
+		$('#summernote').summernote('insertNode', node);
 		var node = document.createElement('INPUT');
 		 node.type = 'text';
 		 node.name = id_input;
@@ -270,7 +389,9 @@ Template.summernote_editeur.rendered = function () { // affichage de summernote
 		 node.placeholder= name;
 		 node.style.cssText = 'width:100px;height:35px;';
 		$('#summernote').summernote('insertNode', node);
-		console.log(docsInserted) });
+		$('.champs').draggable();
+		
+		});
 	
 		 
 		 
@@ -315,8 +436,10 @@ Template.summernote_editeur.rendered = function () { // affichage de summernote
 			}
 			
 			
-			var markupStr = '';
+			var markupStr = '<div id="container" style="width:100%;height:100%;" class="ui-droppable"></div>';
 			$('#summernote').summernote('code', markupStr);
+			droppablemain();
+			
 		 } else {
 			 alert('Please complete all fields.');
 		 }
@@ -330,10 +453,11 @@ Template.summernote_editeur.rendered = function () { // affichage de summernote
 		 
 	 },
 	 'click #sup_valeur': function() {
-		 var valid_sup = confirm('Validate the remove.');
+		 var valid_sup = confirm('Validate the remove. fe');
 			if(valid_sup == true) {
 				valeurs.remove({_id:this._id});
 				$( "#"+this.id_input ).remove();
+				$( "#"+this.id_input+"div" ).remove();
 			}
 		 
 	 },
@@ -342,6 +466,7 @@ Template.summernote_editeur.rendered = function () { // affichage de summernote
 			if(valid_sup == true) {
 				champs.remove({_id:this._id});
 				$( "#"+this.id_input ).remove();
+				$( "#"+this.id_input+"div" ).remove();
 			}
 		 
 	 },
@@ -386,14 +511,12 @@ Template.summernote_editeur.rendered = function () { // affichage de summernote
 		 src = img[0].src;
 		 console.log(h);
 		 console.log(w);
+		  
 		 
+		 html = '<table style="width:100%;"><tbody><tr><td style="height:799px;">Text<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></td><td><div style=\'width:'+w+'px;height:'+h+'px;background-image: url('+src+');background-size:100%; margin:auto;margin-top:0;\'>Text<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></div></td><td  style="height:799px;">Text<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></td></tr></tbody></html>'; 
+			
+		$('#summernote').summernote('code', html);
 		 
-		 div = document.createElement('div');
-		 div.style.width=w;
-		 div.style.height=h;
-		 div.style.cssText = 'width:'+w+'px;height:'+h+'px;background: url('+src+') no-repeat;';
-
-		  $('#summernote').summernote("insertNode", div);
 	 }
 
 	 

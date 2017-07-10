@@ -5,7 +5,7 @@
   <div class="container">
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">{{reference}} : edit </a></li> 
+        <li class="active"><a href="#">{{name_ref}} : edit </a></li> 
         <li><a href="/references">Reference</a></li>
         <li><a target="_blank" href="/production">Production</a></li>
 		<li><a target="_blank" href="/reports">Reports</a></li> 
@@ -36,6 +36,7 @@
 
 
 <template name="editeur">
+
 <div id="editeur" class="editeur">
 <h2> Editor </h2>
 <input type="hidden" id="id" value="{{etape._id}}" name="id">
@@ -154,7 +155,7 @@
 		
 		{{#each champ_etape}}
         <tr>
-			<td><label>Name:</label></td>
+			<td><label>Filed Text:</label></td>
 			<td><div class="form-group"><input type="text" class="form-control" name="name_champ" id="name_champ" value="{{name}}"></div></td>
 			<td><span id="sup_champ" class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span></td>
 
@@ -162,6 +163,17 @@
 			
 		</tr>
 		{{/each}} 
+		{{#each champ_etape_ctrl}} 
+        <tr>
+			<td><label>Filed Text checking:</label></td>
+			<td><div class="form-group"><input type="text" class="form-control" name="name_champ" id="name_champ" value="{{name}}"></div></td>
+			<td><div class="form-group"><input type="text" class="form-control" name="text_champ" id="text_champ" value="{{val}}"></div></td>
+			<td><span id="sup_champ" class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span></td>
+
+			
+			     
+		</tr>
+		{{/each}}  
 		
 	</tbody>
 	</table>
@@ -169,7 +181,7 @@
 	<table class="table_editeur_field"> 
 		<tbody>
 			
-			<tr>
+			<tr> 
 			<td><div class="form-group"><button type="button" class="form-control" id="imgbackground">Img background</button></div></td>
 			</tr>
 		</tbody>
@@ -179,8 +191,12 @@
 		  
 	
 	</div>
+</div>  
+<div class="col-md-1 objet">
+<div class="check" style="background: green; width: 60px; padding: 25px; "><input type="checkbox" name="check"></div>
 </div>
 {{>summernote_editeur}}
+
 
 <button name="enregistrer" class="bp_enregistrer">Save</button>
 </div>
@@ -188,13 +204,15 @@
 
 
 <template name="summernote_editeur">
+<div class="col-md-11">
 	<div id="summernote"></div>  
-
+	
+</div>
 </template>
  
 <template name="etape">
 
-<div class="etape">
+<div id="etape" class="etape">
 	<div class="numero_etape"><span >Number  </span><input type="text" class="num_etape" name="number" value="{{num_etape}}"></div>
 	<div class="affiche_etape">{{{html_etape}}}</div>
 	<button name="Modifier" class="bp_modifier">Edit</button>

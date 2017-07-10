@@ -16,6 +16,11 @@ Template.references.helpers({
 
 
 Template.references.events({
+	'change #name_ref': function(e) {
+		name_ref = e.target.value;
+		 ref.update({_id:this._id}, {$set: {name_ref}});	
+		
+	},
 	'click #edit_ref': function() {
 		
 		Router.go('/edition/'+this.reference+'/'+this.revision);
@@ -25,10 +30,12 @@ Template.references.events({
 		e.preventDefault();
 		const target = e.target;
 		reference = target.name_ref.value;
+		type_ref = target.type_ref.value;
+		name_ref = reference;
 		if(ref.find({reference}).count()>0) {
 			alert('The reference already exists');
 		} else {
-		ref.insert({reference, date: new Date(), validation:false, revision:"00"}); 
+		ref.insert({reference, name_ref, type_ref, date: new Date(), validation:false, revision:"00"}); 
 		}
 	}, 
 	'click .valid_ref': function(e) {
@@ -64,6 +71,8 @@ Template.references.events({
 		reference = this.reference;
 		revision = this.revision;
 		Meteor.subscribe('etapes', reference, function() {
+		Meteor.subscribe('valeurs', function() {
+		Meteor.subscribe('champs', function() {
 		tab = etapes.find({reference, revision}).fetch();
 		revision = prompt('Give a version number');
 		if(revision) {
@@ -100,12 +109,28 @@ Template.references.events({
 						valeurs.insert({id, name, type, min, max, normal, id_input});
 						console.log(y);
 									}
+			var array = champs.find({id}).fetch();
+			for(y in array) {  
+						name = array[y].name;
+						id_input = array[y].id_input;
+						id = new_id;
+						if('type' in array[y]) {
+						type  = array[y].type;
+						val  = array[y].val;
+						champs.insert({id, name, type, val, id_input});
+						} else {
+							champs.insert({id, name, type, id_input});
+						}
+						
+									}
 					
 			
 			
 		}
 		console.log(tab);
 			}
+		});
+		});
 		
 	});
 	},
@@ -116,6 +141,7 @@ Router.go('/references/'+this.reference+'/'+this.revision+'/');
 		
 		
 	}
+	
 	
 	
 	

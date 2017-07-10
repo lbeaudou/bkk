@@ -6,9 +6,42 @@ Template.reports.helpers({
 	go: function() {
 		numserie= Session.get('numserie');
 		reference= Session.get('reference');
-		console.log('test');
-		return reports.find({reference, numserie});
+		tab = reports.find({reference, numserie});
+		return tab;
 		
+		 
+	},
+	
+	
+	
+	
+});
+
+Template.reports.events({
+	'click #down_report': function() {
+		numserie= Session.get('numserie');
+		reference= Session.get('reference');
+		tab = reports.find({reference, numserie});
+			var heading = false; // Optional, defaults to true
+			var delimiter = ";" // Optional, defaults to ",";
+   
+		var csv = exportcsv.exportToCSV(tab.fetch(), heading, delimiter);
+		var blob = new Blob([csv], {type: "text/plain;charset=utf-8"});
+		name = 'Report - '+reference + ' - ' + numserie + '.csv';
+		saveAs(blob, name);
+		
+	},
+	'click #down_times': function() {
+		numserie= Session.get('numserie');
+		reference= Session.get('reference');
+		tab = times.find({reference, numserie});
+			var heading = true; // Optional, defaults to true
+			var delimiter = ";" // Optional, defaults to ",";
+   
+		var csv = exportcsv.exportToCSV(tab.fetch(), heading, delimiter);
+		var blob = new Blob([csv], {type: "text/plain;charset=utf-8"});
+		name = 'Times - '+reference + ' - ' + numserie + '.csv';
+		saveAs(blob, name);
 		
 	},
 	
@@ -32,6 +65,7 @@ Template.moreCharts.rendered = function(){
   
   numserie= Session.get('numserie');
 		reference= Session.get('reference');
+		Meteor.subscribe('times', reference, function() {
 		tab = times.find({reference, numserie}).fetch();
 		
 
@@ -53,7 +87,7 @@ Template.moreCharts.rendered = function(){
         }]
     };
     var myPieChart = new Chart(ctx).Bar(data);
-  
+		});
 };
 
 
